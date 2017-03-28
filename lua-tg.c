@@ -161,6 +161,7 @@ void push_channel (tgl_peer_t *P) {
   my_lua_checkstack (luaState, 4);
   lua_add_string_field ("title", P->channel.title);
   lua_add_string_field ("about", P->channel.about);
+  lua_add_string_field ("username", P->channel.username);
   lua_add_num_field ("participants_count", P->channel.participants_count);
   lua_add_num_field ("admins_count", P->channel.admins_count);
   lua_add_num_field ("kicked_count", P->channel.kicked_count);
@@ -509,6 +510,20 @@ void push_message (struct tgl_message *M) {
   lua_pushstring (luaState, "unread");
   lua_pushboolean (luaState, (M->flags & TGLMF_UNREAD) != 0);
   lua_settable (luaState, -3); 
+
+  if (M->flags & TGLMF_POST_AS_CHANNEL) {
+    lua_pushstring (luaState, "views");
+    lua_pushnumber (luaState, M->views_count);
+    lua_settable (luaState, -3);
+
+    lua_pushstring (luaState, "post_id");
+    lua_pushnumber (luaState, M->permanent_id.id);
+    lua_settable (luaState, -3);
+
+    lua_pushstring (luaState, "link");
+    lua_pushstring (luaState, M->link);
+    lua_settable (luaState, -3);
+  }
   
   lua_pushstring (luaState, "date");
   lua_pushnumber (luaState, M->date);
@@ -661,9 +676,9 @@ struct lua_arg {
 struct lua_arg lua_ptr[MAX_LUA_COMMANDS];
 static int pos;
 
-static inline tgl_peer_t *get_peer (const char *s) { 
-  return tgl_peer_get_by_name (TLS, s);
-}
+//static inline tgl_peer_t *get_peer (const char *s) { 
+//  return tgl_peer_get_by_name (TLS, s);
+//}
   
 enum lua_query_type {
   lq_contact_list,
