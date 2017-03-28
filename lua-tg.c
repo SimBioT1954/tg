@@ -519,10 +519,6 @@ void push_message (struct tgl_message *M) {
     lua_pushstring (luaState, "post_id");
     lua_pushnumber (luaState, M->permanent_id.id);
     lua_settable (luaState, -3);
-
-    lua_pushstring (luaState, "link");
-    lua_pushstring (luaState, M->link);
-    lua_settable (luaState, -3);
   }
   
   lua_pushstring (luaState, "date");
