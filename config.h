@@ -56,14 +56,14 @@
 #define HAVE_LUA_H 1
 
 /* Define to 1 if you have the <mach/mach.h> header file. */
-/* #undef HAVE_MACH_MACH_H */
+#define HAVE_MACH_MACH_H 1
 
 /* Define to 1 if your system has a GNU libc compatible `malloc' function, and
    to 0 otherwise. */
 #define HAVE_MALLOC 1
 
 /* Define to 1 if you have the <malloc.h> header file. */
-#define HAVE_MALLOC_H 1
+/* #undef HAVE_MALLOC_H */
 
 /* Define to 1 if you have the `memmove' function. */
 #define HAVE_MEMMOVE 1

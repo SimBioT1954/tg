@@ -1,11 +1,11 @@
 srcdir=.
 
-CFLAGS=-g -O2
-LDFLAGS= -L/usr/local/lib -L/usr/lib -L/usr/lib 
-CPPFLAGS= -I/usr/local/include -I/usr/include -I/usr/include -I/usr/include/lua5.2 
+CFLAGS=-I/usr/local/include -I/usr/local/Cellar/readline/7.0.3_1/include -I/usr/local/opt/openssl/include
+LDFLAGS=-L/usr/local/lib -L/usr/local/Cellar/readline/7.0.3_1/lib -L/usr/local/opt/openssl/lib -L/usr/local/lib -L/usr/lib -L/usr/lib 
+CPPFLAGS= -I/usr/local/include -I/usr/include -I/usr/include  
 DEFS=-DHAVE_CONFIG_H
 COMPILE_FLAGS=${CFLAGS} ${CPFLAGS} ${CPPFLAGS} ${DEFS} -Wall -Werror -Wextra -Wno-missing-field-initializers -Wno-deprecated-declarations -fno-strict-aliasing -fno-omit-frame-pointer -ggdb -Wno-unused-parameter -fPIC
-EXTRA_LIBS=-ljansson -lconfig -lz -levent   -lreadline -llua5.2  -lm -ldl -lssl -lcrypto 
+EXTRA_LIBS=-ljansson -lconfig -lz -levent   -lreadline -llua  -lssl -lcrypto -lz
 LOCAL_LDFLAGS=-rdynamic -ggdb -levent ${EXTRA_LIBS} -ldl -lpthread -lutil
 LINK_FLAGS=${LDFLAGS} ${LOCAL_LDFLAGS}
 
