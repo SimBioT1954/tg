@@ -718,7 +718,8 @@ enum lua_query_type {
   lq_channel_invite_user,
   lq_channel_kick_user,
   lq_channel_get_admins,
-  lq_channel_get_users
+  lq_channel_get_users,
+  lq_channel_list
 };
 
 struct lua_query_extra {
@@ -1149,9 +1150,13 @@ void lua_do_all (void) {
     struct tgl_message *M;
     int q = p;
     tgl_message_id_t *tmp_msg_id;
+
     switch (f) {
     case lq_contact_list:
       tgl_do_update_contact_list (TLS, lua_contact_list_cb, lua_ptr[p ++].ptr);
+      break;
+    case lq_channel_list:
+      tgl_do_get_channels_dialog_list (TLS, 100, 0, lua_dialog_list_cb, lua_ptr[p ++].ptr);
       break;
     case lq_dialog_list:
       tgl_do_get_dialog_list (TLS, 100, 0, lua_dialog_list_cb, lua_ptr[p ++].ptr);
@@ -1468,6 +1473,7 @@ struct lua_function functions[] = {
   {"channel_kick_user", lq_channel_kick_user, { lfp_channel, lfp_user, lfp_none }},
   {"channel_get_admins", lq_channel_get_admins, { lfp_channel, lfp_none }},
   {"channel_get_users", lq_channel_get_users, { lfp_channel, lfp_none }},
+  {"get_channel_list", lq_channel_list, { lfp_none }},
   { 0, 0, { lfp_none}}
 };
 

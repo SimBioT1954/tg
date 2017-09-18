@@ -1,5 +1,7 @@
 *\.o
+*\.log
 auto/*
 bin/*
 dep/*
+libs/*
 Makefile
