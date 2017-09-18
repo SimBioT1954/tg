@@ -1,0 +1,5 @@
+*\.o
+auto/*
+bin/*
+dep/*
+Makefile
