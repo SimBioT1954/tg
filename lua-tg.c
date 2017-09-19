@@ -791,6 +791,44 @@ void lua_contact_list_cb (struct tgl_state *TLSR, void *cb_extra, int success, i
   free (cb);
 }
 
+void lua_dialogs_peer_list_cb (struct tgl_state *TLSR, void *cb_extra, int success, int num, tgl_peer_id_t peers[], tgl_message_id_t *msgs[], int unread[]) {
+  assert (TLSR == TLS);
+  struct lua_query_extra *cb = cb_extra;
+
+  lua_settop (luaState, 0);
+  my_lua_checkstack (luaState, 20);
+
+  lua_rawgeti (luaState, LUA_REGISTRYINDEX, cb->func);
+  lua_rawgeti (luaState, LUA_REGISTRYINDEX, cb->param);
+
+  lua_pushnumber (luaState, success);
+  if (success) {
+    lua_newtable (luaState);
+    int i;
+    for (i = 0; i < num; ++i) {
+      lua_pushnumber (luaState, i);
+      push_peer (peers[i], tgl_peer_get (TLS, peers[i]));
+      lua_settable (luaState, -3);
+    }
+  }
+  else {
+    lua_pushboolean (luaState, 0);
+  }
+
+  assert (lua_gettop (luaState) == 4);
+    
+  int r = ps_lua_pcall (luaState, 3, 0, 0);
+
+  luaL_unref (luaState, LUA_REGISTRYINDEX, cb->func);
+  luaL_unref (luaState, LUA_REGISTRYINDEX, cb->param);
+
+  if (r) {
+    logprintf ("lua: %s\n",  lua_tostring (luaState, -1));
+  }
+
+  free (cb);
+}
+
 void lua_dialog_list_cb (struct tgl_state *TLSR, void *cb_extra, int success, int num, tgl_peer_id_t peers[], tgl_message_id_t *msgs[], int unread[]) {
   assert (TLSR == TLS);
   struct lua_query_extra *cb = cb_extra;
@@ -1156,7 +1194,8 @@ void lua_do_all (void) {
       tgl_do_update_contact_list (TLS, lua_contact_list_cb, lua_ptr[p ++].ptr);
       break;
     case lq_channel_list:
-      tgl_do_get_channels_dialog_list (TLS, 100, 0, lua_dialog_list_cb, lua_ptr[p ++].ptr);
+      tgl_do_get_channels_dialog_list (TLS, lua_ptr[p + 1].num, lua_ptr[p + 2].num, lua_dialogs_peer_list_cb, lua_ptr[p].ptr);
+      p += 3;
       break;
     case lq_dialog_list:
       tgl_do_get_dialog_list (TLS, 100, 0, lua_dialog_list_cb, lua_ptr[p ++].ptr);
@@ -1473,7 +1512,7 @@ struct lua_function functions[] = {
   {"channel_kick_user", lq_channel_kick_user, { lfp_channel, lfp_user, lfp_none }},
   {"channel_get_admins", lq_channel_get_admins, { lfp_channel, lfp_none }},
   {"channel_get_users", lq_channel_get_users, { lfp_channel, lfp_none }},
-  {"get_channel_list", lq_channel_list, { lfp_none }},
+  {"get_channel_list", lq_channel_list, { lfp_nonnegative_number, lfp_nonnegative_number, lfp_none }},
   { 0, 0, { lfp_none}}
 };
 

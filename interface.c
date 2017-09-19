@@ -1416,7 +1416,7 @@ void do_export_channel_link (struct command *command, int arg_num, struct arg ar
 
 void do_dialog_list (struct command *command, int arg_num, struct arg args[], struct in_ev *ev) {
 
-	vlogprintf (E_DEBUG, "inside do_dialog_list");
+    vlogprintf (E_DEBUG, "inside do_dialog_list");
   assert (arg_num <= 2);
   if (ev) { ev->refcnt ++; }
   tgl_do_get_dialog_list (TLS, args[0].num != NOT_FOUND ? args[0].num : 100, args[1].num != NOT_FOUND ? args[1].num : 0, print_dialog_list_gw, ev);
