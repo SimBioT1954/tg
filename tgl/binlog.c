@@ -985,25 +985,30 @@ void bl_do_channel (struct tgl_state *TLS, int id, long long *access_hash, int *
   if (about) {
     if (!C->about || mystreq1 (C->about, about, about_len)) {
       tfree_str (C->about);
+      updates |= TGL_UPDATE_ABOUT;
     }
     C->about = tstrndup (about, about_len);
   }
 
-  if (admins_count) {
+  if (admins_count && C->admins_count != *admins_count) {
     C->admins_count = *admins_count;
+    updates |= TGL_UPDATE_MEMBERS;
   }
   
-  if (participants_count) {
+  if (participants_count && C->participants_count != *participants_count) {
     C->participants_count = *participants_count;
+    updates |= TGL_UPDATE_MEMBERS;
   }
   
-  if (kicked_count) {
+  if (kicked_count && C->kicked_count != *kicked_count) {
     C->kicked_count = *kicked_count;
+    updates |= TGL_UPDATE_MEMBERS;
   }
   
   if (last_read_in) {
     C->last_read_in = *last_read_in;
     tgls_messages_mark_read (TLS, C->last, 0, C->last_read_in);
+    updates |= TGL_UPDATE_LASTREADIN;
   }
   
   if (TLS->callback.channel_update && updates) {

@@ -72,6 +72,8 @@ struct tgl_dc;
 #define TGL_UPDATE_MEMBERS 8192
 #define TGL_UPDATE_ACCESS_HASH 16384
 #define TGL_UPDATE_USERNAME (1 << 15)
+#define TGL_UPDATE_LASTREADIN (1 << 16)
+#define TGL_UPDATE_ABOUT (1 << 17)
 
 /*struct tgl_allocator {
   void *(*alloc)(size_t size);

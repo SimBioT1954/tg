@@ -3411,6 +3411,10 @@ void secret_chat_update_gw (struct tgl_state *TLSR, struct tgl_secret_chat *U, u
 
 void channel_update_gw (struct tgl_state *TLSR, struct tgl_channel *U, unsigned flags) {
   assert (TLSR == TLS);
+
+  #ifdef USE_LUA
+    lua_channel_update (U, flags);
+  #endif
   
   peer_update_username ((void *)U, U->username);
  

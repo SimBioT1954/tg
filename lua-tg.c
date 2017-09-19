@@ -626,6 +626,22 @@ void lua_user_update (struct tgl_user *U, unsigned flags) {
   }
 }
 
+void lua_channel_update (struct tgl_channel *C, unsigned flags) {
+  if (!have_file) { return; }
+  lua_settop (luaState, 0);
+  //lua_checkstack (luaState, 20);
+  my_lua_checkstack (luaState, 20);
+  lua_getglobal (luaState, "on_channel_update");
+  push_peer (C->id, (void *)C);
+  push_update_types (flags);
+  assert (lua_gettop (luaState) == 3);
+
+  int r = ps_lua_pcall (luaState, 2, 0, 0);
+  if (r) {
+    logprintf ("lua: %s\n",  lua_tostring (luaState, -1));
+  }
+}
+
 void lua_chat_update (struct tgl_chat *C, unsigned flags) {
   if (!have_file) { return; }
   lua_settop (luaState, 0);
