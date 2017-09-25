@@ -470,6 +470,9 @@ void push_message (struct tgl_message *M) {
   lua_newtable (luaState);
 
   lua_add_string_field ("id", print_permanent_msg_id (M->permanent_id));
+  lua_add_num_field("views", M->views_count);
+  lua_add_num_field("post_id", M->permanent_id.id);
+  lua_add_string_field("link", M->link);
   if (!(M->flags & TGLMF_CREATED)) { return; }
   lua_add_num_field ("flags", M->flags);
  
@@ -736,7 +739,8 @@ enum lua_query_type {
   lq_channel_get_admins,
   lq_channel_get_users,
   lq_channel_list,
-  lq_get_self
+  lq_get_self,
+  lq_get_message
 };
 
 struct lua_query_extra {
@@ -1379,6 +1383,10 @@ void lua_do_all (void) {
       tgl_do_delete_msg (TLS, &lua_ptr[p + 1].msg_id, lua_empty_cb, lua_ptr[p].ptr);
       p += 2;
       break;
+    case lq_get_message:
+      tgl_do_get_message (TLS, &lua_ptr[p + 1].msg_id, lua_msg_cb, lua_ptr[p].ptr);
+      p += 2;
+      break;
     case lq_accept_secret_chat:
       tgl_do_accept_encr_chat_request (TLS, (void *)tgl_peer_get (TLS, lua_ptr[p + 1].peer_id), lua_secret_chat_cb, lua_ptr[p].ptr);
       p += 2;
@@ -1534,6 +1542,7 @@ struct lua_function functions[] = {
   {"channel_get_admins", lq_channel_get_admins, { lfp_channel, lfp_none }},
   {"channel_get_users", lq_channel_get_users, { lfp_channel, lfp_none }},
   {"get_channel_list", lq_channel_list, { lfp_nonnegative_number, lfp_nonnegative_number, lfp_none }},
+  {"get_message", lq_get_message, {lfp_msg, lfp_none}},
   { 0, 0, { lfp_none}}
 };
 
