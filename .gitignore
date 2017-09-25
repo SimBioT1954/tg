@@ -2,6 +2,7 @@
 *\.log
 auto/*
 bin/*
+sbin/*
 dep/*
 libs/*
 Makefile

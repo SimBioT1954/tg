@@ -267,7 +267,7 @@ void running_for_first_time (void) {
   int config_file_fd;
   //char *config_directory = get_config_directory ();
   //char *downloads_directory = get_downloads_directory ();
-
+  
   if (!mkdir (config_directory, CONFIG_DIRECTORY_MODE)) {
     if (!disable_output) {
       printf ("[%s] created\n", config_directory);

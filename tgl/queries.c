@@ -3610,6 +3610,7 @@ void tgl_do_del_contact (struct tgl_state *TLS, tgl_peer_id_t id, void (*callbac
     }
     return;
   }
+  
   clear_packet ();
   out_int (CODE_contacts_delete_contact);
 

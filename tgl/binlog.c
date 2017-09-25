@@ -242,6 +242,7 @@ void bl_do_chat_add_user (struct tgl_state *TLS, tgl_peer_id_t id, int version, 
   if (TLS->callback.chat_update) {
     TLS->callback.chat_update (TLS, C, TGL_UPDATE_MEMBERS);
   }
+
 }
 /* }}} */
 

@@ -179,6 +179,7 @@ void tglu_work_update (struct tgl_state *TLS, int check_only, struct tl_ds_updat
   }
 
   vlogprintf (E_NOTICE, "update 0x%08x (check=%d)\n", DS_U->magic, check_only);
+  //printf("update 0x%08x (check=%d)\n", DS_U->magic, check_only);//rafuck
   if (check_only > 0 && DS_U->magic != CODE_update_message_i_d) { return; }
   switch (DS_U->magic) {
   case CODE_update_new_message:
@@ -510,8 +511,10 @@ void tglu_work_update (struct tgl_state *TLS, int check_only, struct tl_ds_updat
     }
     break;
   case CODE_update_channel:
+    //printf("!!!!!!!!!!!!!!! CODE_update_cannel\n");//rafuck
     break;
   case CODE_update_channel_group:
+    //printf("!!!!!!!!!!!!!  CODE_update_cannel_group\n");//rafuck
     break;
   case CODE_update_new_channel_message:
     {
@@ -523,10 +526,12 @@ void tglu_work_update (struct tgl_state *TLS, int check_only, struct tl_ds_updat
     }
     break;
   case CODE_update_read_channel_inbox:
+    //printf("!!!!!!!!!!!!!!!!! CODE_update_read_channel_inbox\n");//rafuck
     break;
   case CODE_update_delete_channel_messages:
     break;
   case CODE_update_channel_message_views:
+    //printf("!!!!!!!!!!!!!!!!! CODE_update_read_channel_views\n");//rafuck
     break;
   case CODE_update_chat_admins:
     break;
