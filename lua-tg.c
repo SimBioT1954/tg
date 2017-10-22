@@ -1510,10 +1510,6 @@ void lua_do_all (void) {
       tgl_do_delete_msg (TLS, &lua_ptr[p + 1].msg_id, lua_empty_cb, lua_ptr[p].ptr);
       p += 2;
       break;
-    case lq_get_message:
-      tgl_do_get_message (TLS, &lua_ptr[p + 1].msg_id, lua_msg_cb, lua_ptr[p].ptr);
-      p += 2;
-      break;
     case lq_accept_secret_chat:
       tgl_do_accept_encr_chat_request (TLS, (void *)tgl_peer_get (TLS, lua_ptr[p + 1].peer_id), lua_secret_chat_cb, lua_ptr[p].ptr);
       p += 2;
@@ -1622,9 +1618,9 @@ void lua_do_all (void) {
       tgl_do_export_channel_link (TLS, lua_ptr[p + 1].peer_id, lua_str_cb, lua_ptr[p].ptr);
       p += 2;
       break;
-    case lq_channel_list:
+    /*case lq_channel_list:
       tgl_do_get_channels_dialog_list (TLS, 100, 0, lua_dialog_list_cb, lua_ptr[p ++].ptr);
-      break;
+      break;*/
     case lq_channel_join:
       tgl_do_join_channel (TLS, lua_ptr[p + 1].peer_id, lua_empty_cb, lua_ptr[p].ptr);
       p += 2;
