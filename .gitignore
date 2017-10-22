@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *\.o
 *\.log
 auto/*
@@ -6,3 +7,26 @@ sbin/*
 dep/*
 libs/*
 Makefile
+=======
+telegram
+*.o
+Makefile
+aclocal.m4
+autom4te.cache
+config.h
+config.log
+config.status
+.idea/
+nbproject/
+bin/
+objs/
+dep/
+auto/
+libs/
+debian/telegram-cli.[a-z]
+debian/files
+debian/telegram-cli/*
+debian/telegram-cli.debhelper.log
+debian/telegram-cli.substvars
+__pycache__
+>>>>>>> project-A/master
